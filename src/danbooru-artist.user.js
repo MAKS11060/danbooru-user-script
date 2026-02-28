@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Danbooru Artist on X.com (Twitter)
 // @namespace    https://danbooru.donmai.us/
-// @version      0.5
+// @version      1.0.0
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
