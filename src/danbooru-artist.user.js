@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Danbooru Artist on X.com (Twitter)
 // @namespace    https://danbooru.donmai.us/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
@@ -27,8 +27,19 @@ const LOG_PREFIX = '[Danbooru-artist]'
 
 let pending = new Map()
 
-// ==================== Cache ====================
+// ==================== Locals ====================
+const locals = {
+  openOnDanbooru: {
+    en: 'Open on Danbooru',
+    ru: 'Открыть на Danbooru',
+  },
+}
 
+function getText(key) {
+  return locals[key][navigator.language] ?? locals[key]['en']
+}
+
+// ==================== Cache ====================
 function loadCache() {
   const saved = GM_getValue(CACHE_KEY, '{}')
   try {
@@ -124,7 +135,7 @@ function addIcon(container, artistId) {
   a.href = `https://danbooru.donmai.us/artists/${artistId}`
   a.target = '_blank'
   a.rel = 'noopener noreferrer'
-  a.title = 'Открыть на Danbooru'
+  a.title = getText('openOnDanbooru')
 
   const img = document.createElement('img')
   img.src = GM_getResourceURL('danbooruIcon')
