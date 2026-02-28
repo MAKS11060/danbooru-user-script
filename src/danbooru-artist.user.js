@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Danbooru Artist on X.com (Twitter)
 // @namespace    https://danbooru.donmai.us/
-// @version      1.0.2
+// @version      1.0.3
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
@@ -32,10 +32,14 @@ const locals = {
     en: 'Open on Danbooru',
     ru: 'Открыть на Danbooru',
   },
+  checkOnDanbooru: {
+    en: 'Check on danbooru',
+    ru: 'Проверить на Danbooru',
+  },
 }
 
 function getText(key) {
-  return locals[key][navigator.language] ?? locals[key]['en']
+  return locals[key][lang] ?? locals[key]['en']
 }
 
 // ==================== Cache ====================
@@ -54,6 +58,15 @@ function loadCache() {
 
 function saveCache() {
   GM_setValue(CACHE_KEY, JSON.stringify(Object.fromEntries(cache)))
+}
+
+function invalidateCache(username) {
+  if (cache.has(username)) {
+    cache.delete(username)
+    pending.delete(username)
+    saveCache()
+    console.log(`${LOG_PREFIX}[cache] invalidated`, username)
+  }
 }
 
 // ==================== Find Button ====================
@@ -121,7 +134,7 @@ function checkDanbooru(username) {
   })
 }
 
-function addIcon(container, artistId) {
+function addIcon(container, username, artistId) {
   if (container.querySelector('.' + ICON_CLASS)) return
 
   const wrapper = document.createElement('span')
@@ -130,21 +143,62 @@ function addIcon(container, artistId) {
   wrapper.style.display = 'inline-flex'
   wrapper.style.alignItems = 'center'
 
-  const a = document.createElement('a')
-  a.href = `https://danbooru.donmai.us/artists/${artistId}`
-  a.target = '_blank'
-  a.rel = 'noopener noreferrer'
-  a.title = getText('openOnDanbooru')
+  if (artistId) { // Link to Danbooru Artist
+    const a = document.createElement('a')
+    a.href = `https://danbooru.donmai.us/artists/${artistId}`
+    a.target = '_blank'
+    a.rel = 'noopener noreferrer'
+    a.title = getText('openOnDanbooru')
 
-  const img = document.createElement('img')
-  img.src = GM_getResourceURL('danbooruIcon')
-  img.alt = 'Danbooru'
-  img.style.width = '19px'
-  img.style.height = '19px'
-  img.style.verticalAlign = 'middle'
+    const img = document.createElement('img')
+    img.src = GM_getResourceURL('danbooruIcon')
+    img.alt = 'Danbooru'
+    img.style.width = '19px'
+    img.style.height = '19px'
+    img.style.verticalAlign = 'middle'
 
-  a.appendChild(img)
-  wrapper.appendChild(a)
+    a.appendChild(img)
+    wrapper.appendChild(a)
+  } else { // button for manual re-check
+    const button = document.createElement('button')
+    button.style.background = 'none'
+    button.style.border = 'none'
+    button.style.cursor = 'pointer'
+    button.style.padding = '0'
+    button.style.display = 'inline-flex'
+    button.style.alignItems = 'center'
+    button.style.gap = '4px'
+    button.title = getText('checkOnDanbooru')
+    button.type = 'button'
+
+    const img = document.createElement('img')
+    img.src = GM_getResourceURL('danbooruIcon')
+    img.alt = 'Danbooru'
+    img.style.width = '19px'
+    img.style.height = '19px'
+    img.style.verticalAlign = 'middle'
+    img.style.opacity = '0.35'
+
+    button.appendChild(img)
+    button.appendChild(label)
+
+    button.onclick = (e) => {
+      button.disabled = true
+      e.preventDefault()
+      e.stopPropagation()
+      invalidateCache(username)
+      checkDanbooru(username).then((id) => {
+        if (id) {
+          container.querySelector('.' + ICON_CLASS)?.remove() // rm old btn
+          addIcon(container, username, id) // add new btn
+        }
+        button.disabled = false
+      })
+    }
+
+    wrapper.appendChild(button)
+  }
+
   container.appendChild(wrapper)
 }
 
@@ -157,9 +211,7 @@ function processAll() {
     if (!username) return
 
     checkDanbooru(username).then((artistId) => {
-      if (artistId) {
-        addIcon(actionsContainer, artistId)
-      }
+      addIcon(actionsContainer, username, artistId)
     })
   })
 }
