@@ -180,7 +180,6 @@ function addIcon(container, username, artistId) {
     img.style.opacity = '0.35'
 
     button.appendChild(img)
-    button.appendChild(label)
 
     button.onclick = (e) => {
       button.disabled = true
