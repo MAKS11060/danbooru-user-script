@@ -6,8 +6,8 @@
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
 // @homepage     https://github.com/MAKS11060/danbooru-user-script
-// @downloadURL  https://github.com/MAKS11060/danbooru-user-script/src/danbooru-artist.user.js
-// @updateURL    https://github.com/MAKS11060/danbooru-user-script/src/danbooru-artist.user.js
+// @downloadURL  https://github.com/MAKS11060/danbooru-user-script/raw/main/src/danbooru-artist.user.js
+// @updateURL    https://github.com/MAKS11060/danbooru-user-script/raw/main/src/danbooru-artist.user.js
 // @match        https://x.com/*
 // @match        https://twitter.com/*
 // @grant        GM_getResourceURL
