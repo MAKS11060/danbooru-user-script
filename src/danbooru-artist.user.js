@@ -167,4 +167,4 @@ observer.observe(document.body, {childList: true, subtree: true})
 processAll()
 window.addEventListener('load', processAll)
 
-console.log(`%c${LOG_PREFIX} v${GM_info?.version} loaded!`, 'color: #ff6b9d; font-weight: bold')
+console.log(`%c${LOG_PREFIX} loaded!`, 'color: #ff6b9d; font-weight: bold')
