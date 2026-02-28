@@ -5,9 +5,9 @@
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
-// @homepage     https://github.com/maks11060/danbooru-user-scripts
-// @downloadURL  https://github.com/maks11060/danbooru-user-scripts/src/danbooru-artist.user.js
-// @updateURL    https://github.com/maks11060/danbooru-user-scripts/src/danbooru-artist.user.js
+// @homepage     https://github.com/maks11060/danbooru-user-script
+// @downloadURL  https://github.com/maks11060/danbooru-user-script/src/danbooru-artist.user.js
+// @updateURL    https://github.com/maks11060/danbooru-user-script/src/danbooru-artist.user.js
 // @match        https://x.com/*
 // @match        https://twitter.com/*
 // @grant        GM_getResourceURL
