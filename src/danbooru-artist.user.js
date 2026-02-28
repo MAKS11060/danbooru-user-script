@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Danbooru Artist on X.com (Twitter)
 // @namespace    https://danbooru.donmai.us/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
@@ -94,9 +94,11 @@ function checkDanbooru(username) {
             } catch (e) {
               console.error(LOG_PREFIX, e)
             }
+            saveCache()
+            console.log(`${LOG_PREFIX}[cache] put`, username, cache.get(username))
+          } else if (r.status === 403) { // CF block
+            console.error(`${LOG_PREFIX} 403`, r)
           }
-          saveCache()
-          console.log(`${LOG_PREFIX}[cache] put`, username, cache.get(username))
           pending.delete(username)
           resolve(cache.get(username))
         },
@@ -145,7 +147,7 @@ function processAll() {
     if (!username) return
 
     checkDanbooru(username).then((artistId) => {
-      if (artistId !== null) {
+      if (artistId) {
         addIcon(actionsContainer, artistId)
       }
     })
