@@ -25,9 +25,8 @@ const CACHE_KEY = 'danbooruCache_v2'
 const ICON_CLASS = 'danbooru-icon'
 const LOG_PREFIX = '[Danbooru-artist]'
 
-let pending = new Map()
-
 // ==================== Locals ====================
+const lang = navigator.language.split('-')[0]
 const locals = {
   openOnDanbooru: {
     en: 'Open on Danbooru',
@@ -174,10 +173,12 @@ Map.prototype.getOrInsertComputed ??= function(key, callbackFunction) {
 
 // ==================== Entrypoint ====================
 const cache = loadCache()
+const pending = new Map()
+
 const observer = new MutationObserver(processAll)
 observer.observe(document.body, {childList: true, subtree: true})
 
-processAll()
 window.addEventListener('load', processAll)
+processAll()
 
 console.log(`%c${LOG_PREFIX} loaded!`, 'color: #ff6b9d; font-weight: bold')
