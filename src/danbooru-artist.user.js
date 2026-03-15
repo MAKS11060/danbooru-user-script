@@ -14,7 +14,7 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
-// @resource     danbooruIcon https://danbooru.donmai.us/favicon.ico
+// @resource     danbooruIcon https://www.google.com/s2/favicons?sz=64&domain=https://danbooru.donmai.us/favicon.ico
 // @connect      danbooru.donmai.us
 // @run-at       document-end
 // ==/UserScript==
