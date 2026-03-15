@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Danbooru Artist on X.com (Twitter)
 // @namespace    https://danbooru.donmai.us/
-// @version      1.0.3
+// @version      1.0.4
 // @description  Adds a Danbooru icon to quickly open a profile on Danbooru
 // @author       MAKS11060
 // @icon         https://danbooru.donmai.us/favicon.ico
@@ -104,7 +104,10 @@ function checkDanbooru(username) {
       GM_xmlhttpRequest({
         method: 'GET',
         url,
-        headers: {'Accept': 'application/json'},
+        headers: {
+          'accept': 'application/json',
+          'user-agent': 'github.com/MAKS11060/danbooru-user-script'
+        },
         onload: (r) => {
           if (r.status === 200) {
             try {
@@ -120,7 +123,7 @@ function checkDanbooru(username) {
             saveCache()
             console.log(`${LOG_PREFIX}[cache] put`, username, cache.get(username))
           } else if (r.status === 403) { // CF block
-            console.error(`${LOG_PREFIX} 403`, r)
+            console.error(`${LOG_PREFIX} 403`, r.responseText, r)
           }
           pending.delete(username)
           resolve(cache.get(username))
