@@ -145,6 +145,7 @@ function addIcon(container, username, artistId) {
   wrapper.style.marginLeft = '6px'
   wrapper.style.display = 'inline-flex'
   wrapper.style.alignItems = 'center'
+  wrapper.style.userSelect = 'none'
 
   if (artistId) { // Link to Danbooru Artist
     const a = document.createElement('a')
@@ -232,7 +233,7 @@ const pending = new Map()
 const observer = new MutationObserver(processAll)
 observer.observe(document.body, {childList: true, subtree: true})
 
-window.addEventListener('load', processAll)
-processAll()
+// window.addEventListener('load', processAll)
+// processAll()
 
 console.log(`%c${LOG_PREFIX} loaded!`, 'color: #ff6b9d; font-weight: bold')
