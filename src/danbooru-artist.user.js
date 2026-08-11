@@ -25,6 +25,8 @@ const CACHE_KEY = 'danbooruCache_v2'
 const ICON_CLASS = 'danbooru-icon'
 const LOG_PREFIX = '[Danbooru-artist]'
 
+const UA = 'github.com/MAKS11060/danbooru-user-script user #1055579'
+
 // ==================== Locals ====================
 const lang = navigator.language.split('-')[0]
 const locals = {
@@ -106,7 +108,7 @@ function checkDanbooru(username) {
         url,
         headers: {
           'accept': 'application/json',
-          'user-agent': 'github.com/MAKS11060/danbooru-user-script'
+          'user-agent': UA
         },
         onload: (r) => {
           if (r.status === 200) {
